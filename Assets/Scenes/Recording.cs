@@ -10,9 +10,15 @@ public class Recording : MonoBehaviour
     [SerializeField] private GameObject[] pianoKeys;
     public ArrayList recordedKeys = new ArrayList();
     [SerializeField] private bool recording = false;
+    [SerializeField] private AudioClip[] pianoSounds;
+    private AudioSource audioSource;
     private float time, delay;
     private string key;
 
+    private void Start()
+    {
+        audioSource = this.GetComponent<AudioSource>();
+    }
     public void startRecording()
     {
         recording = true;
@@ -40,11 +46,16 @@ public class Recording : MonoBehaviour
     }
     private void playSound(string soundName, float delay)
     {
-        Debug.Log(soundName + " --- " + string.Format("{0}",delay));
+        //Debug.Log(soundName + " --- " + string.Format("{0}",delay));
+        playKey(soundName);
     }
     public void playKey(string keyNo)
     {
-        Debug.Log(keyNo);
+        audioSource.PlayOneShot(pianoSounds[int.Parse(keyNo) - 1]);
+        //int index = int.Parse(keyNo) - 1;
+        //Debug.Log(keyNo);
+        //audioSource.PlayOneShot(pianoSounds[0]);
+
     }
     private (string, float) parseElement(string element)
     {

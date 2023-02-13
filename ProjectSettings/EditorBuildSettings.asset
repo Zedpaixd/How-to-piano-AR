@@ -8,9 +8,12 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/ar.unity
     guid: eb193a365d438fd4b89a1a2914396301
-  - enabled: 1
+  - enabled: 0
     path: Assets/_ARPortal/Scenes/sth.unity
     guid: 2750242b0e237b640805c6136801d085
+  - enabled: 1
+    path: Assets/Scenes/piano.unity
+    guid: 969239d5756b6ab4eae6cc5515ffea9d
   m_configObjects:
     UnityEditor.XR.ARCore.ARCoreSettings: {fileID: 11400000, guid: 6ee72d15cf39dd748a13eac57397b9af,
       type: 2}

@@ -59,9 +59,7 @@ public class Recording : MonoBehaviour
 
         StopAllCoroutines();
         StartCoroutine(playRecordingCoroutine(recordedKeys));
-        
-        
-        
+
         ///
         /// //has to happen for first element to have 0 delay
         /// /*(key, time) = parseElement(recordedKeys[0].ToString());

@@ -14,18 +14,25 @@ public class Recording : MonoBehaviour
     private AudioSource audioSource;
     private float time, delay;
     private string key;
+    public bool turnedOn = false;
 
     private void Start()
     {
         audioSource = this.GetComponent<AudioSource>();
     }
+    
+    public void changeState()
+    {
+        turnedOn = !turnedOn;
+    }
+    
     public void startRecording()
     {
-        recording = true;
+        if (turnedOn) recording = true;
     }
     public void stopRecording()
     {
-        recording = false;
+        if (turnedOn) recording = false;
     }
     public bool isRecording()
     {
@@ -33,25 +40,31 @@ public class Recording : MonoBehaviour
     }
     public void resetRecording()
     {
-        recordedKeys.Clear();
+        if (turnedOn) recordedKeys.Clear();
     }
     public void play()
     {
-        playRecording();
-        resetRecording();
+        if (turnedOn)
+        {
+            playRecording();
+            resetRecording();
+        }
     }
     public void addToRecording(string name)
     {
-        recordedKeys.Add(string.Format("{0}|{1}", name, Time.time));
+        if (turnedOn)
+            recordedKeys.Add(string.Format("{0}|{1}", name, Time.time));
     }
     private void playSound(string soundName, float delay)
     {
         //Debug.Log(soundName + " --- " + string.Format("{0}",delay));
-        playKey(soundName);
+        if (turnedOn)
+            playKey(soundName);
     }
     public void playKey(string keyNo)
     {
-        audioSource.PlayOneShot(pianoSounds[int.Parse(keyNo) - 1]);
+        if (turnedOn)
+            audioSource.PlayOneShot(pianoSounds[int.Parse(keyNo) - 1]);
         //int index = int.Parse(keyNo) - 1;
         //Debug.Log(keyNo);
         //audioSource.PlayOneShot(pianoSounds[0]);
@@ -64,12 +77,15 @@ public class Recording : MonoBehaviour
     }
     public void playRecording()
     {
-        if (recordedKeys.Count <= 0)
-            return;
-        stopRecording();
+        if (turnedOn)
+        {
+            if (recordedKeys.Count <= 0)
+                return;
+            stopRecording();
 
-        StopAllCoroutines();
-        StartCoroutine(playRecordingCoroutine(recordedKeys));
+            StopAllCoroutines();
+            StartCoroutine(playRecordingCoroutine(recordedKeys));
+        }
 
         ///
         /// //has to happen for first element to have 0 delay

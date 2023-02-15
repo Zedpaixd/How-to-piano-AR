@@ -15,6 +15,7 @@ public class Recording : MonoBehaviour
     private float time, delay;
     private string key;
     public bool turnedOn = false;
+    [SerializeField] private GameObject onLight, offLight, recordingOn, recordingOff;
 
     private void Start()
     {
@@ -24,15 +25,29 @@ public class Recording : MonoBehaviour
     public void changeState()
     {
         turnedOn = !turnedOn;
+        onLight.SetActive(!onLight.activeSelf);
+        offLight.SetActive(!offLight.activeSelf);
     }
-    
+
     public void startRecording()
     {
-        if (turnedOn) recording = true;
+        if (turnedOn)
+        {
+            recordingOn.SetActive(true);
+            recordingOff.SetActive(false);
+            recording = true;
+        }
     }
     public void stopRecording()
     {
-        if (turnedOn) recording = false;
+        if (turnedOn)
+        {
+            recordingOn.SetActive(false);
+            recordingOff.SetActive(true);
+            recording = false;
+            StopAllCoroutines();
+            resetRecording();
+        }
     }
     public bool isRecording()
     {

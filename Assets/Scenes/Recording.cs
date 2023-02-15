@@ -15,6 +15,7 @@ public class Recording : MonoBehaviour
     private float time, delay;
     private string key;
     public bool turnedOn = false;
+    [SerializeField] private GameObject rick, smallKeys;
     [SerializeField] private GameObject onLight, offLight, recordingOn, recordingOff;
 
     private void Start()
@@ -42,11 +43,14 @@ public class Recording : MonoBehaviour
     {
         if (turnedOn)
         {
+            if (recordingOn.activeSelf == false) 
+            {
+                StopAllCoroutines();
+                resetRecording();
+            }
             recordingOn.SetActive(false);
             recordingOff.SetActive(true);
             recording = false;
-            StopAllCoroutines();
-            resetRecording();
         }
     }
     public bool isRecording()
@@ -87,7 +91,7 @@ public class Recording : MonoBehaviour
     }
     private (string, float) parseElement(string element)
     {
-        string[] values = element.Split("|"); 
+        string[] values = element.Split("|");
         return (values[0],float.Parse(values[1]));
     }
     public void playRecording()
@@ -95,8 +99,14 @@ public class Recording : MonoBehaviour
         if (turnedOn)
         {
             if (recordedKeys.Count <= 0)
+            {
+                if (rick)
+                {
+                    rick.gameObject.SetActive(true);
+                    smallKeys.SetActive(false);
+                }
                 return;
-            stopRecording();
+            }
 
             StopAllCoroutines();
             StartCoroutine(playRecordingCoroutine(recordedKeys));
@@ -152,6 +162,12 @@ public class Recording : MonoBehaviour
             recordedKeys.RemoveAt(0);
         }
     }*/
+
+    public void destroyRick()
+    {
+        Destroy(rick);
+    }
+
     private IEnumerator playRecordingCoroutine(ArrayList recKeys)
     {
         //has to happen for first element to have 0 delay

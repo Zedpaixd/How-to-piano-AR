@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using TMPro;
 using System.Threading;
+using Unity.VisualScripting;
 
 public class Recording : MonoBehaviour
 {
@@ -107,6 +108,15 @@ public class Recording : MonoBehaviour
                 }
                 return;
             }
+
+            string a = "";
+
+            foreach (var thing in recordedKeys)
+            {
+                a = a + "   " + thing;
+            }
+
+            Debug.Log(a);
 
             StopAllCoroutines();
             StartCoroutine(playRecordingCoroutine(recordedKeys));
